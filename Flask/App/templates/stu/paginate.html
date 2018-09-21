@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/pagination.html' as pagination %}
+
+{% block content %}
+    {% for s in stus.items %}
+        {{ s.stu_name }}
+    {% endfor %}
+
+{{ pagination.render_pagination(stus,'stu.paginate_stu') }}
+{% endblock %}

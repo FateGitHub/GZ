@@ -1,0 +1,96 @@
+{% extends 'bootstrap/base.html' %}
+
+{# 图标 #}
+{% block styles %}
+    {{ super() }}
+    <link rel="icon" href="{{ url_for('static',filename='favicon.ico') }}">
+{% endblock %}
+
+{# 一级菜单 #}
+{% block navbar %}
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">
+                    <img style="position: relative; top: -13px" src="{{ url_for('static', filename='image/logo.svg') }}"
+                         alt="">
+                </a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="{{ url_for('user.my_book') }}">我的账单<span class="sr-only">(current)</span></a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">菜单 <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-right">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search">
+                    </div>
+                    <button type="submit" class="btn btn-default">搜索</button>
+                </form>
+                <ul class="nav navbar-nav navbar-right">
+
+                    {# 判断是登录了 is_authenticated 登录就返回True#}
+                    {% if current_user.is_authenticated %}
+{#                        <li><img src="{{ url_for('static',filename='image/') }}{{ current_user.avatar }}" alt=""></li>#}
+                        <li><a href="{{ url_for('user.user_login') }}">{{ current_user.username }}</a></li>
+                        <li><a href="{{ url_for('user.login_out') }}">退出</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('user.user_login') }}">登录</a></li>
+                        <li><a href="{{ url_for('user.register') }}">注册</a></li>
+                    {% endif %}
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+{% endblock %}
+
+
+{# 内容 #}
+{% block content %}
+    <div class="container">
+        {# 导航 #}
+        {% block nav %}
+            <div class="container">
+                <!-- The justified navigation menu is meant for single line per list item.
+                     Multiple lines will require custom code not provided by Bootstrap. -->
+                <div class="masthead">
+                    <nav>
+                        <ul class="nav nav-justified">
+                            <li class="active"><a href="{{ url_for('main.hello_main') }}">首页</a></li>
+                            <li><a href="{{ url_for('product.show_coffee',page=1) }}">咖啡</a></li>
+                            <li><a href="#">全家桶</a></li>
+                            <li><a href="#">麻辣烫</a></li>
+                            <li><a href="#">串串香</a></li>
+                            <li><a href="#">其他</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        {% endblock %}
+
+        <!-- 产品详情 -->
+        {% block jumbotron %}
+
+            <div class="jumbotron">
+                <h1>今日推荐!</h1>
+                <p><img src="{{ url_for('static', filename='image/kv-bever.jpg') }}" style="width: 800px " alt=""></p>
+            </div>
+        {% endblock %}
+        <!-- Site footer -->
+        <footer class="footer">
+            <p align="center">&copy; 2016 Company, Inc.</p>
+        </footer>
+
+    </div> <!-- /container -->
+
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% from 'pagenation.html' import render_pagenation %}
+
+{% block styles %}
+    {{ super() }}
+    <style>
+        .coffee_li {
+            width: 180px;
+            list-style-type: none;
+            float: left;
+            line-height: 150px;
+        }
+
+        .coffee_div {
+            margin: auto;
+            width: 800px;
+        }
+
+        .coffee_img {
+            width: 160px;
+        }
+
+        .clear {
+            clear: both;
+        }
+
+    </style>
+{% endblock %}
+{% block jumbotron %}
+    {# 咖啡列表 #}
+    {% for coffee in coffee_list.items %}
+        <div class="coffee_div">
+            <ul>
+                <li class="coffee_li">
+                    <img class="coffee_img" src="{{ url_for('static',filename='image/') }}{{ coffee.coffee_img }}"
+                         alt="">
+                    <br>
+                    {{ coffee.coffee_name }}
+                </li>
+            </ul>
+        </div>
+
+    {% endfor %}
+    <div class="clear"></div>
+    {# 定义一个翻页的宏 #}
+    <div class="pagenation" align="center">
+        {# (分页对象,分页函数) #}
+        {{ render_pagenation(coffee_list, 'product.show_coffee') }}
+    </div>
+{% endblock %}

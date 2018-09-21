@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form action="" method="post" enctype="multipart/form-data">
+    <input type="file" name="photo">
+    <input type="submit" value="上传">
+</form>
+
+{% for msg in get_flashed_messages() %}
+    <p>{{ msg }}</p>
+{% endfor %}
+
+{% if img_url %}
+    <img src="{{ img_url }}" alt="">
+{% endif %}
+</body>
+</html>
