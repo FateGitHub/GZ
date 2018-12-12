@@ -1,0 +1,119 @@
+import requests
+import json
+import asyncio
+import aiohttp
+from pyquery import PyQuery as pq
+
+
+class YinYue:
+
+    def __init__(self, url):
+        self.music_url = url  # 音乐的url
+        self.music_id = None  # 音乐的ID
+        self.music_download_url = None  # 最终音乐的下载地址
+        self.music_name = None  # 音乐的名字
+        self.vkey = None  # 加密的参数
+        self.params = None  # 提交的参数
+
+        self.headers = {
+            "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"}
+        self.proxies = {"https": "https://120.79.170.224:8989"}
+
+    def get_name(self):  # 获取歌曲的名字
+        response = requests.get(url=self.music_url).content.decode('utf-8')
+
+        doc = pq(response)
+        # print(doc)
+
+        self.music_name = doc('title').text().split('-')[0]  # 歌曲的名字
+
+        print(self.music_name)
+
+    def get_params(self):  # 获取加密的vkey
+        self.params = self.music_url[self.music_url.rindex(
+            '/') + 1:self.music_url.rindex('.')]  # 获取音乐的ID
+
+        print(self.params)
+        params_url = "https://c.y.qq.com/base/fcgi-bin/fcg_music_express_mobile3.fcg?g_tk=1160855065&loginUin=247990761" \
+                     "&hostUin=0&format=json&inCharset=utf8&outCharset=utf-8¬ice=0&platform=yqq&needNewCode=0&cid=205361747" \
+                     "&uin=247990761&songmid={0}&filename=C400{1}.m4a&guid=6964837424".format(self.params, self.params)
+        # 加密参数的url
+
+        print(params_url)
+        response = requests.get(params_url, headers=self.headers, verify=False)  # 访问加密的网址
+        response = json.loads(response.text)
+
+        print(response)
+        self.vkey = response['data']['items'][0]['vkey']  # 加密的参数
+        print(self.vkey)
+
+    def get_quality(self):  # 获取不同品质的url
+        # quality_id = input('请输入1-5(默认最高)')
+        index_music_url = 'https://dl.stream.qqmusic.qq.com/{}' + self.params + \
+                          '.{}?vkey=' + self.vkey + '&guid=1671612333&uin=0&fromtag=66'  # 53
+        music_type = {
+            'C400': 'm4a',
+            'M500': 'mp3',
+            'M800': 'mpe',
+            'A000': 'ape',
+            'F000': 'flac'
+        }  # m4a, mp3普通, mp3高, ape, flac
+        music_urls = []  # 下载音乐的地址
+
+        for k, v in music_type.items():
+            music_url = index_music_url.format(k, v)
+            music_urls.append(music_url)
+
+        print(music_urls)
+        self.get_url(music_urls)
+
+    def get_url(self, music_urls):  # 协程判断是否存在不同音乐品质的url
+        result = []
+
+        async def get(url):
+            session = aiohttp.ClientSession()
+            response = await session.get(url)
+            status_code = response.status
+            # session.close()
+            return status_code
+
+        async def request(url):
+            response = await get(url)
+            if response == 200:
+                result.append(url)
+
+        print(result)
+        tasks = [asyncio.ensure_future(request(url)) for url in music_urls]
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(asyncio.wait(tasks))
+        self.music_download_url = result[-1]  # 默认下载最高品质
+
+    def download_music(self):  # 音乐的下载
+        response = requests.get(url=self.music_download_url, stream=True)
+        with open(self.music_name + '.mp3', 'wb') as f:
+            for check in response.iter_content(1024):
+                f.write(check)
+
+
+if __name__ == '__main__':
+    '''
+    # songmid 在歌单页面,json中可以得到当前页面所有歌的songmid;
+    # 歌曲对应唯一的songmid  ->  vkey的地址  -> 唯一的vkey  -> 得到歌单里每一首歌曲下载地址
+    # vkey 的提取URL地址
+    # "https://c.y.qq.com/base/fcgi-bin/fcg_music_express_mobile3.fcg?g_tk=1160855065&loginUin=247990761&hostUin=0&format=json&inCharset=utf8&outCharset=utf-8¬ice=0&platform=yqq&needNewCode=0&cid=205361747&uin=247990761&songmid={0}&filename=C400{1}.m4a&guid=6964837424".format(songmid,songmid)
+    # 歌曲通用下载地址url
+    # "http://dl.stream.qqmusic.qq.com/C400{0}.m4a?vkey={1}&guid=6964837424&uin=247990761&fromtag=66".format(songmid,vkey)
+    # "http://183.232.63.156/amobile.QQMusic.tc.qq.com/C4000{0}.m4a?guid=1671612333(登陆后)&vkey={1}&uin=(QQ号)&fromtag=66".format(songmid,vkey)
+    
+    # https://c.y.qq.com/base/fcgi-bin/fcg_music_express_mobile3.fcg?g_tk=1160855065&loginUin=247990761&hostUin=0&format=json&inCharset=utf8&outCharset=utf-8¬ice=0&platform=yqq&needNewCode=0&cid=205361747&uin=247990761&songmid=002YYV7g0FlXAp&filename=C400002YYV7g0FlXAp.m4a&guid=6964837424
+    # http://dl.stream.qqmusic.qq.com/C4000002YYV7g0FlXAp.m4a?guid=1671612333&vkey=B5417249D020271BE40327A028BA36C62F23157755175136749066F13C96A582D205AC44F7B7EA608C11F31C2F857F2AA09D2C3691253423&&uin=0&fromtag=66
+    # http://dl.stream.qqmusic.qq.com/C400002YYV7g0FlXAp.m4a?vkey=B5417249D020271BE40327A028BA36C62F23157755175136749066F13C96A582D205AC44F7B7EA608C11F31C2F857F2AA09D2C3691253423&guid=6964837424&uin=247990761&fromtag=66
+
+    '''
+    yinyue = YinYue('https://y.qq.com/n/yqq/song/002YYV7g0FlXAp.html')
+    yinyue.get_name()
+    yinyue.get_params()
+    # yinyue.get_quality()
+    # yinyue.download_music()
+
+    # url_mp3 = "http://dl.stream.qqmusic.qq.com/" + temp_link["filename"] + "?guid=2057046240&vkey=" + temp_link["vkey"] + "&uin=0&fromtag=88"
