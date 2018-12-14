@@ -42,7 +42,7 @@ class YinYue:
         # 加密参数的url
 
         print(params_url)
-        response = requests.get(params_url, headers=self.headers, verify=False)  # 访问加密的网址
+        response = requests.get(params_url, headers=self.headers)  # 访问加密的网址
         response = json.loads(response.text)
 
         print(response)
