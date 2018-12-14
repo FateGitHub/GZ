@@ -1,3 +1,5 @@
+import zlib
+
 import requests
 import json
 import asyncio
@@ -18,6 +20,7 @@ class YinYue:
         self.headers = {
             "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"}
         self.proxies = {"https": "https://120.79.170.224:8989"}
+
 
     def get_name(self):  # 获取歌曲的名字
         response = requests.get(url=self.music_url).content.decode('utf-8')
@@ -50,7 +53,8 @@ class YinYue:
     def get_quality(self):  # 获取不同品质的url
         # quality_id = input('请输入1-5(默认最高)')
         index_music_url = 'https://dl.stream.qqmusic.qq.com/{}' + self.params + \
-                          '.{}?vkey=' + self.vkey + '&guid=1671612333&uin=0&fromtag=66'  # 53
+                          '.{}?&guid=1671612333&vkey=' + self.vkey + '&uin=0&fromtag=66'  # 53
+
         music_type = {
             'C400': 'm4a',
             'M500': 'mp3',
@@ -69,27 +73,25 @@ class YinYue:
 
     def get_url(self, music_urls):  # 协程判断是否存在不同音乐品质的url
         result = []
-
         async def get(url):
-            session = aiohttp.ClientSession()
-            response = await session.get(url)
-            status_code = response.status
-            # session.close()
-            return status_code
+            async with aiohttp.ClientSession() as session:
+                async with session.get(url,headers=self.headers) as resp:
+                    status_code = resp.status
+                    return status_code
 
         async def request(url):
             response = await get(url)
             if response == 200:
                 result.append(url)
 
-        print(result)
         tasks = [asyncio.ensure_future(request(url)) for url in music_urls]
         loop = asyncio.get_event_loop()
         loop.run_until_complete(asyncio.wait(tasks))
+        print(result)
         self.music_download_url = result[-1]  # 默认下载最高品质
 
     def download_music(self):  # 音乐的下载
-        response = requests.get(url=self.music_download_url, stream=True)
+        response = requests.get(url=self.music_download_url, headers=self.headers, stream=True)
         with open(self.music_name + '.mp3', 'wb') as f:
             for check in response.iter_content(1024):
                 f.write(check)
@@ -108,12 +110,9 @@ if __name__ == '__main__':
     # https://c.y.qq.com/base/fcgi-bin/fcg_music_express_mobile3.fcg?g_tk=1160855065&loginUin=247990761&hostUin=0&format=json&inCharset=utf8&outCharset=utf-8¬ice=0&platform=yqq&needNewCode=0&cid=205361747&uin=247990761&songmid=002YYV7g0FlXAp&filename=C400002YYV7g0FlXAp.m4a&guid=6964837424
     # http://dl.stream.qqmusic.qq.com/C4000002YYV7g0FlXAp.m4a?guid=1671612333&vkey=B5417249D020271BE40327A028BA36C62F23157755175136749066F13C96A582D205AC44F7B7EA608C11F31C2F857F2AA09D2C3691253423&&uin=0&fromtag=66
     # http://dl.stream.qqmusic.qq.com/C400002YYV7g0FlXAp.m4a?vkey=B5417249D020271BE40327A028BA36C62F23157755175136749066F13C96A582D205AC44F7B7EA608C11F31C2F857F2AA09D2C3691253423&guid=6964837424&uin=247990761&fromtag=66
-
     '''
-    yinyue = YinYue('https://y.qq.com/n/yqq/song/002YYV7g0FlXAp.html')
+    yinyue = YinYue('https://y.qq.com/n/yqq/song/000n0TJV3DDsIR.html')
     yinyue.get_name()
     yinyue.get_params()
-    # yinyue.get_quality()
-    # yinyue.download_music()
-
-    # url_mp3 = "http://dl.stream.qqmusic.qq.com/" + temp_link["filename"] + "?guid=2057046240&vkey=" + temp_link["vkey"] + "&uin=0&fromtag=88"
+    yinyue.get_quality()
+    yinyue.download_music()
