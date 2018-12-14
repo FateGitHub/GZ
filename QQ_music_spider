@@ -1,5 +1,4 @@
-import zlib
-
+# -*- coding:utf-8 -*-
 import requests
 import json
 import asyncio
@@ -108,7 +107,6 @@ if __name__ == '__main__':
     # "http://183.232.63.156/amobile.QQMusic.tc.qq.com/C4000{0}.m4a?guid=1671612333(登陆后)&vkey={1}&uin=(QQ号)&fromtag=66".format(songmid,vkey)
     
     # https://c.y.qq.com/base/fcgi-bin/fcg_music_express_mobile3.fcg?g_tk=1160855065&loginUin=247990761&hostUin=0&format=json&inCharset=utf8&outCharset=utf-8¬ice=0&platform=yqq&needNewCode=0&cid=205361747&uin=247990761&songmid=002YYV7g0FlXAp&filename=C400002YYV7g0FlXAp.m4a&guid=6964837424
-    # http://dl.stream.qqmusic.qq.com/C4000002YYV7g0FlXAp.m4a?guid=1671612333&vkey=B5417249D020271BE40327A028BA36C62F23157755175136749066F13C96A582D205AC44F7B7EA608C11F31C2F857F2AA09D2C3691253423&&uin=0&fromtag=66
     # http://dl.stream.qqmusic.qq.com/C400002YYV7g0FlXAp.m4a?vkey=B5417249D020271BE40327A028BA36C62F23157755175136749066F13C96A582D205AC44F7B7EA608C11F31C2F857F2AA09D2C3691253423&guid=6964837424&uin=247990761&fromtag=66
     '''
     yinyue = YinYue('https://y.qq.com/n/yqq/song/000n0TJV3DDsIR.html')
