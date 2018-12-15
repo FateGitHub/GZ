@@ -20,9 +20,8 @@ class YinYue:
             "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"}
         self.proxies = {"https": "https://120.79.170.224:8989"}
 
-
     def get_name(self):  # 获取歌曲的名字
-        response = requests.get(url=self.music_url).content.decode('utf-8')
+        response = requests.get(url=self.music_url, headers=self.headers).content.decode('utf-8')
 
         doc = pq(response)
         # print(doc)
@@ -36,23 +35,27 @@ class YinYue:
             '/') + 1:self.music_url.rindex('.')]  # 获取音乐的ID
 
         print(self.params)
-        params_url = "https://c.y.qq.com/base/fcgi-bin/fcg_music_express_mobile3.fcg?g_tk=1160855065&loginUin=247990761" \
-                     "&hostUin=0&format=json&inCharset=utf8&outCharset=utf-8¬ice=0&platform=yqq&needNewCode=0&cid=205361747" \
-                     "&uin=247990761&songmid={0}&filename=C400{1}.m4a&guid=6964837424".format(self.params, self.params)
+      
         # 加密参数的url
 
+        params_url = 'https://c.y.qq.com/base/fcgi-bin/fcg_music_express_mobile3.fcg?g_tk=5381&jsonpCallback=MusicJsonCallback' \
+                  '&loginUin=0&hostUin=0&format=json&inCharset=utf8&outCharset=utf-8&notice=0&platform=yqq&needNewCode=0&cid=205361747' \
+                  '&callback=MusicJsonCallback&uin=0&songmid={0}&filename=C400{1}.m4a&guid=1671612331'.format(self.params, self.params)
+
         print(params_url)
-        response = requests.get(params_url, headers=self.headers)  # 访问加密的网址
-        response = json.loads(response.text)
+        response = requests.get(params_url, headers=self.headers, verify=True)  # 访问加密的网址
+        response = response.text.replace('MusicJsonCallback(','').rstrip(')')
+        response = json.loads(response)
 
         print(response)
         self.vkey = response['data']['items'][0]['vkey']  # 加密的参数
+        self.vkey = "47CCFE3E93171FCFBDFAA213FBA44F48DC5D642D65E63052BD11ACAA8F64776C1151E801D8F66A14B8DE61820301451167396D7EDFCA4AEC"
         print(self.vkey)
 
     def get_quality(self):  # 获取不同品质的url
         # quality_id = input('请输入1-5(默认最高)')
         index_music_url = 'https://dl.stream.qqmusic.qq.com/{}' + self.params + \
-                          '.{}?&guid=1671612333&vkey=' + self.vkey + '&uin=0&fromtag=66'  # 53
+                          '.{}?&guid=1671612331&vkey=' + self.vkey + '&uin=0&fromtag=66'  # 53
 
         music_type = {
             'C400': 'm4a',
@@ -72,9 +75,10 @@ class YinYue:
 
     def get_url(self, music_urls):  # 协程判断是否存在不同音乐品质的url
         result = []
+
         async def get(url):
             async with aiohttp.ClientSession() as session:
-                async with session.get(url,headers=self.headers) as resp:
+                async with session.get(url) as resp:
                     status_code = resp.status
                     return status_code
 
@@ -107,6 +111,7 @@ if __name__ == '__main__':
     # "http://183.232.63.156/amobile.QQMusic.tc.qq.com/C4000{0}.m4a?guid=1671612333(登陆后)&vkey={1}&uin=(QQ号)&fromtag=66".format(songmid,vkey)
     
     # https://c.y.qq.com/base/fcgi-bin/fcg_music_express_mobile3.fcg?g_tk=1160855065&loginUin=247990761&hostUin=0&format=json&inCharset=utf8&outCharset=utf-8¬ice=0&platform=yqq&needNewCode=0&cid=205361747&uin=247990761&songmid=002YYV7g0FlXAp&filename=C400002YYV7g0FlXAp.m4a&guid=6964837424
+    # http://dl.stream.qqmusic.qq.com/C4000002YYV7g0FlXAp.m4a?guid=1671612333&vkey=B5417249D020271BE40327A028BA36C62F23157755175136749066F13C96A582D205AC44F7B7EA608C11F31C2F857F2AA09D2C3691253423&&uin=0&fromtag=66
     # http://dl.stream.qqmusic.qq.com/C400002YYV7g0FlXAp.m4a?vkey=B5417249D020271BE40327A028BA36C62F23157755175136749066F13C96A582D205AC44F7B7EA608C11F31C2F857F2AA09D2C3691253423&guid=6964837424&uin=247990761&fromtag=66
     '''
     yinyue = YinYue('https://y.qq.com/n/yqq/song/000n0TJV3DDsIR.html')
