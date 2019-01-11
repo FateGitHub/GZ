@@ -23,3 +23,6 @@ gain
     "localPort": 1080,
     "shareOverLan": false
 }
+
+
+https://tool.lu/
