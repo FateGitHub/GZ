@@ -37,3 +37,6 @@ https://www.cnblogs.com/dhcn/p/7121435.html
 
 # 图片搜索引擎
 https://www.ctolib.com/topics-125069.html
+
+# 视频下载链接
+https://keepvid.works
