@@ -41,3 +41,6 @@ https://www.ctolib.com/topics-125069.html
 # 视频下载链接
 https://keepvid.works
 https://en.savefrom.net/
+
+# 股票
+https://content.etoro.com
