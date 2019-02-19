@@ -9,7 +9,7 @@ gain
     "configs": [
         {
             "method": "aes-256-cfb",
-            "password": "B43~UkUo9XpMCDLn3KN~OS9ggeDOJTZT",
+            "password": "JewcqDk4Vq1uLrTmLtO7Ec65q1-_7V_~",
             "remarks": "169",
             "server": "52.220.60.169",
             "server_port": 1188
