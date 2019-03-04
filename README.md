@@ -52,6 +52,7 @@ https://congcong0806.github.io/2018/04/24/Telegram/
 https://www.cnblogs.com/taoxu/category/995970.html
 https://congcong0806.github.io/2018/04/24/Telegram/
 
-# go 调用tensorflow/keras训练的模型
+# ensorflow/keras训练模型
+https://github.com/gaussic/text-classification-cnn-rnn
 https://www.jianshu.com/p/7d4172e8e490
-https://blog.csdn.net/cdj0311/article/details/81773849
+go 调用https://blog.csdn.net/cdj0311/article/details/81773849
