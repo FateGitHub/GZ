@@ -25,6 +25,16 @@ gain
     "localPort": 1080,
     "shareOverLan": false
 }
+{
+    "server":"150.242.213.233",
+    "server_port":8989,
+    "local_address":"127.0.0.1",
+    "local_port":1088,
+    "password":"jilshGHJK457%$##@",
+    "timeout":300,
+    "method":"aes-256-cfb",
+    "fast_open":false
+}
 
 # 在线工具
 https://tool.lu/
