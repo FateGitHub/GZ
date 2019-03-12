@@ -16,7 +16,7 @@ gain
         },
         {
             "method": "aes-256-cfb",
-            "password": "Key2018)&)!.com_info",
+            "password": "0xp684Uu2hbt37lFd2Q_d5nK1Kiy_iYv",
             "remarks": "224",
             "server": "120.79.170.224",
             "server_port": 8989
