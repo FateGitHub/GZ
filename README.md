@@ -76,3 +76,6 @@ http://accu.cc/
 
 # 魔方格
 http://www.mofangge.com/qlist/shuxue/
+
+# 今日热榜
+https://tophub.today/
