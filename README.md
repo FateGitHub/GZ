@@ -80,3 +80,6 @@ http://www.mofangge.com/qlist/shuxue/
 
 # 今日热榜
 https://tophub.today/
+
+#LOL
+op.gg
