@@ -5,6 +5,7 @@ https://www.ctolib.com
 uvloop —— 超级快的 Python 异步网络框架
 python web 框架 Sanic
 # flask推荐
+cookiecutter-flask
 https://juejin.im/post/5b86cabbe51d4538cc3ecfaa
 gain
 
