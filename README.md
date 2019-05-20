@@ -10,38 +10,6 @@ python web 框架 Sanic
 - gain
 - https://my.oschina.net/taogang/blog/630632
 
-# 代理
-{
-    "configs": [
-        {
-            "method": "aes-256-cfb",
-            "password": "JewcqDk4Vq1uLrTmLtO7Ec65q1-_7V_~",
-            "remarks": "169",
-            "server": "52.220.60.169",
-            "server_port": 1188
-        },
-        {
-            "method": "aes-256-cfb",
-            "password": "0xp684Uu2hbt37lFd2Q_d5nK1Kiy_iYv",
-            "remarks": "224",
-            "server": "120.79.170.224",
-            "server_port": 8989
-        }
-    ],
-    "localPort": 1080,
-    "shareOverLan": false
-}
-{
-    "server":"150.242.213.233",
-    "server_port":8989,
-    "local_address":"127.0.0.1",
-    "local_port":1088,
-    "password":"jilshGHJK457%$##@",
-    "timeout":300,
-    "method":"aes-256-cfb",
-    "fast_open":false
-}
-
 # 在线工具
 https://tool.lu/
 
