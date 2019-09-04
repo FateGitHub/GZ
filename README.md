@@ -53,3 +53,6 @@ https://tophub.today/
 
 # LOL
 op.gg
+
+# RSSHUB
+https://docs.rsshub.app/#%E9%B8%A3%E8%B0%A2
