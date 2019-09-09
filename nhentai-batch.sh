@@ -1,6 +1,7 @@
 #!/bin/bash
 
 #setting  off:0  on:1
+#https://nicemoe1.com/
 zad=1			#Auto zip the directory after downloading
 dsaz=1			#Delete sourse directory after zipping
 
