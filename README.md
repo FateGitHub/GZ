@@ -56,3 +56,6 @@ op.gg
 
 # RSSHUB
 https://docs.rsshub.app/#%E9%B8%A3%E8%B0%A2
+
+# google-image-api
+https://www.google.com/search?ei=xFr1W5nPGsXz8QXwgIOQAQ&yv=3&tbm=isch&q=%s&vet=&ijn=%s&start=%d&asearch=ichunk&async=_id:rg_s,_pms:s,_fmt:pc
