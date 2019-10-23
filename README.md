@@ -62,3 +62,6 @@ https://www.google.com/search?ei=xFr1W5nPGsXz8QXwgIOQAQ&yv=3&tbm=isch&q=%s&vet=&
 
 # tools集
 https://github.com/Ice-Hazymoon/domains
+
+# 虾米
+http://www.manongzj.com/blog/5-oltwrmtoauueytm.html
