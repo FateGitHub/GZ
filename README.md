@@ -65,3 +65,6 @@ https://github.com/Ice-Hazymoon/domains
 
 # 虾米
 http://www.manongzj.com/blog/5-oltwrmtoauueytm.html
+
+# 网易云音乐
+http://music.163.com/song/media/outer/url?id=ID数字.mp3
