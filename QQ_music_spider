@@ -106,6 +106,8 @@ if __name__ == '__main__':
     # 歌曲对应唯一的songmid  ->  vkey的地址  -> 唯一的vkey  -> 得到歌单里每一首歌曲下载地址
     # vkey 的提取URL地址
     # "https://c.y.qq.com/base/fcgi-bin/fcg_music_express_mobile3.fcg?g_tk=1160855065&loginUin=247990761&hostUin=0&format=json&inCharset=utf8&outCharset=utf-8¬ice=0&platform=yqq&needNewCode=0&cid=205361747&uin=247990761&songmid={0}&filename=C400{1}.m4a&guid=6964837424".format(songmid,songmid)
+    # 'https://u.y.qq.com/cgi-bin/musicu.fcg?g_tk=5381&loginUin=0&hostUin=0&format=json&inCharset=utf8&outCharset=utf+-+8&notice=0&platform=yqq.json&needNewCode=0&data=%7B%22req_0%22%3A%7B%22module%22%3A%22vkey.GetVkeyServer%22%2C%22method%22%3A%22CgiGetVkey%22%2C%22param%22%3A%7B%22guid%22%3A%228874756349%22%2C%22songmid%22%3A%5B%22002ejEdb4KTwBw%22%5D%2C%22songtype%22%3A%5B0%5D%2C%22uin%22%3A%220%22%2C%22loginflag%22%3A1%2C%22platform%22%3A%2220%22%7D%7D%2C%22comm%22%3A%7B%22uin%22%3A0%2C%22format%22%3A%22json%22%2C%22ct%22%3A24%2C%22cv%22%3A0%7D%7D'
+   
     # 歌曲通用下载地址url
     # "http://dl.stream.qqmusic.qq.com/C400{0}.m4a?vkey={1}&guid=6964837424&uin=247990761&fromtag=66".format(songmid,vkey)
     # "http://183.232.63.156/amobile.QQMusic.tc.qq.com/C4000{0}.m4a?guid=1671612333(登陆后)&vkey={1}&uin=(QQ号)&fromtag=66".format(songmid,vkey)
